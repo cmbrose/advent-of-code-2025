@@ -24,15 +24,43 @@ func Check(err error) {
 	}
 }
 
+func checkArgs(name string, expectValue bool) (bool, string) {
+	args := os.Args[1:]
+	for i, arg := range args {
+		if arg == "--"+name {
+			if !expectValue {
+				return true, ""
+			}
+
+			if i+1 >= len(args) {
+				panic(fmt.Sprintf("Expected value after --%s", name))
+			}
+
+			return true, args[i+1]
+		}
+	}
+
+	return false, ""
+}
+
+func getInputFile() string {
+	ok, file := checkArgs("input", true)
+	if !ok {
+		file = "./input.txt"
+	}
+
+	return file
+}
+
 func ReadInputLines() []string {
-	content, err := os.ReadFile("./input.txt")
+	content, err := os.ReadFile(getInputFile())
 	Check(err)
 
 	return strings.Split(string(content), "\n")
 }
 
 func ReadInputBlocks() [][]string {
-	content, err := os.ReadFile("./input.txt")
+	content, err := os.ReadFile(getInputFile())
 	Check(err)
 
 	blocks := strings.Split(string(content), "\n\n")
@@ -46,6 +74,13 @@ func ReadInputRuneGrid() [][]rune {
 	lines := ReadInputLines()
 
 	return Map(lines, func(line string) []rune { return []rune(line) })
+}
+
+func Debugf(format string, a ...any) {
+	ok, _ := checkArgs("debug", false)
+	if ok {
+		fmt.Printf(format, a...)
+	}
 }
 
 func Repeat[T any](v T, cnt int) []T {
