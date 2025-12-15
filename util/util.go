@@ -144,6 +144,14 @@ func Sum[T Number](a []T) T {
 	return s
 }
 
+func Product[T Number](a []T) T {
+	var s T = 1
+	for _, v := range a {
+		s *= v
+	}
+	return s
+}
+
 func AssertInt(str string) int {
 	i, err := strconv.Atoi(str)
 	Check(err)

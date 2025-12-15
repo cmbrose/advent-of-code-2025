@@ -9,10 +9,10 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "5.1/main.go",
+            "program": "6.2/main.go",
             "args": [
                 "--input",
-                "5.1/test.txt",
+                "6.2/input.txt",
                 "--debug"
             ],
             "cwd": "${workspaceFolder}"
