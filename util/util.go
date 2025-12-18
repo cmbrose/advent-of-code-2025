@@ -76,6 +76,11 @@ func ReadInputRuneGrid() [][]rune {
 	return Map(lines, func(line string) []rune { return []rune(line) })
 }
 
+func MapInputLines[T any](f func(string) T) []T {
+	lines := ReadInputLines()
+	return Map(lines, f)
+}
+
 func Debugf(format string, a ...any) {
 	ok, _ := checkArgs("debug", false)
 	if ok {
